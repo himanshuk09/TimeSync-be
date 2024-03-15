@@ -1,26 +1,88 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { User } from './schemas/user.schema';
+import { LoginDto } from './dto/login.dto';
+import { SignUpDto } from './dto/signup.dto';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+  constructor(
+    @InjectModel(User.name)
+    private userModel: Model<User>,
+  ) {}
+
+  // // Register User
+  // async signUp(signUpDto: SignUpDto): Promise<User> {
+  //   const { name, email, username, password, role } = signUpDto;
+  //   console.log(signUpDto);
+  //   const hashedPassword = await bcrypt.hash(password, 10);
+  //   console.log(hashedPassword);
+  //   try {
+  //     const user = await this.userModel.create({
+  //       name,
+  //       email,
+  //       password,
+  //       username,
+  //       role,
+  //     });
+  //     console.log('data', user);
+  //     return user;
+  //   } catch (error) {
+  //     //handle duplicate email
+  //     if (error.code === 11000) {
+  //       throw new ConflictException('Duplicate email entered');
+  //     }
+  //   }
+  // }
+
+  async signUp(createSignupBody: SignUpDto): Promise<any> {
+    const { name, email, username, password, role } = createSignupBody;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    try {
+      const user = new this.userModel({
+        name,
+        email,
+        password: hashedPassword,
+        username,
+        role,
+      });
+      await user.save();
+      return user;
+    } catch (error) {
+      //handle duplicate email
+      if (error.code === 11000) {
+        throw new ConflictException('Duplicate email entered');
+      }
+    }
   }
 
-  findAll() {
-    return `This action returns all auth`;
+  // login user
+  async login(loginDto: LoginDto): Promise<User> {
+    const { email, password } = loginDto;
+    const user = await this.userModel.findOne({ email }).select('password');
+
+    if (!user) {
+      throw new UnauthorizedException('Invalid email address or password');
+    }
+    //check if password match or not
+    const isPasswordMatch = await bcrypt.compare(password, user.password); //first password is for body and second is from db
+    if (!isPasswordMatch) {
+      throw new UnauthorizedException('Invalid email address or password');
+    }
+    return user;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
-
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  //Update restaurants by id  put
+  async updateById(id: string, userDetails): Promise<User> {
+    return await this.userModel.findByIdAndUpdate(id, userDetails, {
+      new: true,
+      runValidators: true,
+    });
   }
 }
