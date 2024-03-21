@@ -2,11 +2,14 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { ClassesModule } from './classes/classes.module';
+
 import { TeachersModule } from './teachers/teachers.module';
 import { StudentsModule } from './students/students.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { ClassesModule } from './classes/classes.module';
+import { SubjectsModule } from './subjects/subjects.module';
+import { ClasssubjectmappingModule } from './classsubjectmapping/classsubjectmapping.module';
 
 @Module({
   imports: [
@@ -19,6 +22,8 @@ import { ConfigModule } from '@nestjs/config';
     StudentsModule,
     TeachersModule,
     ClassesModule,
+    SubjectsModule,
+    ClasssubjectmappingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

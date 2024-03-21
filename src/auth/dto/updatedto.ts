@@ -3,6 +3,6 @@ export class updateDto {
   email: string;
   username: string;
   password: string;
-  role?: Enumerator;
-  gender?: Enumerator;
+  role?: string;
+  gender?: string;
 }

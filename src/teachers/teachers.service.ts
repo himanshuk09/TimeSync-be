@@ -1,26 +1,57 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateTeacherDto } from './dto/create-teacher.dto';
 import { UpdateTeacherDto } from './dto/update-teacher.dto';
+import { Teachers } from './schemas/teachers.schema';
+import mongoose from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class TeachersService {
-  create(createTeacherDto: CreateTeacherDto) {
-    return 'This action adds a new teacher';
+  constructor(
+    @InjectModel(Teachers.name)
+    private TeachersModel: mongoose.Model<Teachers>,
+  ) {}
+
+  async create(createTeacherDto: CreateTeacherDto): Promise<Teachers> {
+    const newTeacher = new this.TeachersModel(createTeacherDto);
+    return newTeacher.save();
   }
 
-  findAll() {
-    return `This action returns all teachers`;
+  //get All Students => GEt
+  async findAll(): Promise<Teachers[]> {
+    const Teachers = await this.TeachersModel.find();
+    return Teachers;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} teacher`;
+  //Get Teachers by id : get
+  async findById(id: string): Promise<Teachers> {
+    //For valid id
+    const isValidId = mongoose.isValidObjectId(id);
+    if (!isValidId) {
+      throw new BadRequestException(
+        'wrong mongoose ID error . Please enter correct ID',
+      );
+    }
+    const teacher = await this.TeachersModel.findById(id);
+    if (!teacher) {
+      throw new NotFoundException('Restaurant not found');
+    }
+    return teacher;
+  }
+  //Update teacher by id  put
+  async updateById(id: string, teacher: UpdateTeacherDto): Promise<Teachers> {
+    return await this.TeachersModel.findByIdAndUpdate(id, teacher, {
+      new: true,
+      runValidators: true,
+    });
   }
 
-  update(id: number, updateTeacherDto: UpdateTeacherDto) {
-    return `This action updates a #${id} teacher`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} teacher`;
+  //DElete teacher by id
+  async deleteById(id: string): Promise<Teachers> {
+    return await this.TeachersModel.findByIdAndDelete(id);
   }
 }

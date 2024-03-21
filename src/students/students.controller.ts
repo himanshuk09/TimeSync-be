@@ -8,6 +8,8 @@ import {
   Delete,
   Put,
   NotFoundException,
+  HttpStatus,
+  Res,
 } from '@nestjs/common';
 import { StudentsService } from './students.service';
 import { CreateStudentDto } from './dto/create-student.dto';
@@ -23,9 +25,30 @@ export class StudentsController {
     return this.studentsService.findAll();
   }
 
+  // @Post()
+  // async createStudents(@Body() student: CreateStudentDto): Promise<Students> {
+  //   return this.studentsService.create(student);
+  // }
+
+  //responce
   @Post()
-  async createStudents(@Body() student: CreateStudentDto): Promise<Students> {
-    return this.studentsService.create(student);
+  async createStudents(
+    @Res() response,
+    @Body() student: CreateStudentDto,
+  ): Promise<Students> {
+    try {
+      const newStudent = await this.studentsService.create(student);
+      return response.status(HttpStatus.CREATED).json({
+        message: 'Student has been created successfully',
+        newStudent,
+      });
+    } catch (err) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        statusCode: 400,
+        message: 'Error: Student not created!',
+        error: 'Bad Request',
+      });
+    }
   }
 
   @Get(':id')

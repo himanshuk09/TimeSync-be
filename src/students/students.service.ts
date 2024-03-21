@@ -4,10 +4,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateStudentDto } from './dto/create-student.dto';
-import { UpdateStudentDto } from './dto/update-student.dto';
 import { Students } from './schemas/students.schema';
 import mongoose from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { UpdateStudentDto } from './dto/update-student.dto';
 
 @Injectable()
 export class StudentsService {
@@ -16,7 +16,7 @@ export class StudentsService {
     private StudentsModel: mongoose.Model<Students>,
   ) {}
 
-  // Create new Restaurants
+  // Create new students
   // async create(stud: CreateStudentDto): Promise<CreateStudentDto> {
   //   console.log(stud);
   //   const student = await this.StudentsModel.create(stud);
@@ -29,13 +29,13 @@ export class StudentsService {
     console.log(newStudent);
     return newStudent.save();
   }
-  //get All Restaurants => GEt /restaurants
+  //get All Students => GEt
   async findAll(): Promise<Students[]> {
     const students = await this.StudentsModel.find();
     return students;
   }
 
-  //Get reataurant by id : get
+  //Get Student by id : get
   async findById(id: string): Promise<Students> {
     //For valid id
     const isValidId = mongoose.isValidObjectId(id);
@@ -46,20 +46,20 @@ export class StudentsService {
     }
     const student = await this.StudentsModel.findById(id);
     if (!student) {
-      throw new NotFoundException('Restaurant not found');
+      throw new NotFoundException('Student not found');
     }
     return student;
   }
 
-  //Update restaurants by id  put
-  async updateById(id: string, student): Promise<Students> {
+  //Update Students by id  put
+  async updateById(id: string, student: UpdateStudentDto): Promise<Students> {
     return await this.StudentsModel.findByIdAndUpdate(id, student, {
       new: true,
       runValidators: true,
     });
   }
 
-  //DElete restaurant by id
+  //DElete students by id
   async deleteById(id: string): Promise<Students> {
     return await this.StudentsModel.findByIdAndDelete(id);
   }

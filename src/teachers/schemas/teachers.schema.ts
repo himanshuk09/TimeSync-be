@@ -1,12 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-export enum StudentGender {
+export enum TeacherGender {
   MALE = 'male',
   FEMALE = 'female',
   OTHER = 'other',
 }
 @Schema()
-export class Students extends Document {
+export class Teachers extends Document {
   @Prop()
   name: string;
 
@@ -17,17 +17,16 @@ export class Students extends Document {
   email: string;
 
   @Prop()
-  classname: string;
-
-  @Prop()
   age: number;
 
   @Prop()
+  subject: string;
+  @Prop()
   phoneno: number;
   @Prop({
-    enum: StudentGender,
+    enum: TeacherGender,
   })
-  gender?: StudentGender;
+  gender?: TeacherGender;
 
   @Prop({ type: Object })
   address?: {
@@ -41,4 +40,4 @@ export class Students extends Document {
   avatar?: string;
 }
 
-export const StudentsSchema = SchemaFactory.createForClass(Students);
+export const TeachersSchema = SchemaFactory.createForClass(Teachers);

@@ -24,7 +24,6 @@ export class CreateStudentDto {
   @IsString()
   @IsNotEmpty()
   readonly classname: string;
-
   @IsNumber()
   @IsNotEmpty()
   readonly age: number;
@@ -32,7 +31,6 @@ export class CreateStudentDto {
   @IsEnum(StudentGender, { message: 'Please enter correct gender' })
   @IsNotEmpty()
   readonly gender?: StudentGender;
-
   @IsNumber()
   @IsNotEmpty()
   readonly phoneno: number;
