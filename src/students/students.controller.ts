@@ -10,17 +10,20 @@ import {
   NotFoundException,
   HttpStatus,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { StudentsService } from './students.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { Students } from './schemas/students.schema';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('students')
 export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}
 
   @Get()
+  @UseGuards(AuthGuard())
   async getAllStudents(): Promise<Students[]> {
     return this.studentsService.findAll();
   }

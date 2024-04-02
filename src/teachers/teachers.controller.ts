@@ -68,7 +68,7 @@ export class TeachersController {
     if (deletedTeacher) {
       return { deleted: true };
     } else {
-      throw new NotFoundException('Restaurant not found');
+      throw new NotFoundException('Teacher not found');
     }
   }
 }

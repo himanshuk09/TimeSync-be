@@ -10,6 +10,8 @@ import { ConfigModule } from '@nestjs/config';
 import { ClassesModule } from './classes/classes.module';
 import { SubjectsModule } from './subjects/subjects.module';
 import { ClasssubjectmappingModule } from './classsubjectmapping/classsubjectmapping.module';
+import { EventsModule } from './events/events.module';
+import { MarkAttendenceModule } from './mark-attendence/mark-attendence.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { ClasssubjectmappingModule } from './classsubjectmapping/classsubjectmap
     ClassesModule,
     SubjectsModule,
     ClasssubjectmappingModule,
+    EventsModule,
+    MarkAttendenceModule,
   ],
   controllers: [AppController],
   providers: [AppService],

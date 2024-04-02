@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+import { Classes } from 'src/classes/schemas/classes.schema';
 export enum StudentGender {
   MALE = 'male',
   FEMALE = 'female',
@@ -16,14 +17,21 @@ export class Students extends Document {
   @Prop({ unique: [true, 'email already registered'] })
   email: string;
 
-  @Prop()
-  classname: string;
+  // @Prop()
+  // classname: string;
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Classes',
+    unique: [true, 'Id already Existed'],
+  })
+  classId: Classes; // Reference to Class document
 
   @Prop()
-  age: number;
+  age: string;
 
   @Prop()
-  phoneno: number;
+  phoneno: string;
   @Prop({
     enum: StudentGender,
   })

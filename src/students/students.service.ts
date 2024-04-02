@@ -24,14 +24,12 @@ export class StudentsService {
   //   return student;
   // }
   async create(createStudentDto: CreateStudentDto): Promise<Students> {
-    console.log(createStudentDto);
     const newStudent = new this.StudentsModel(createStudentDto);
-    console.log(newStudent);
     return newStudent.save();
   }
   //get All Students => GEt
   async findAll(): Promise<Students[]> {
-    const students = await this.StudentsModel.find();
+    const students = await this.StudentsModel.find().populate('classId'); // Populate the 'classId' field with the corresponding Class document
     return students;
   }
 

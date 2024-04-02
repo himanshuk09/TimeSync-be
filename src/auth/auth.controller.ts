@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   Put,
+  Res,
+  HttpStatus,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -25,9 +27,23 @@ export class AuthController {
   }
 
   //login
-  @Get('/login')
-  login(@Body() loginDto: LoginDto): Promise<User> {
-    return this.authService.login(loginDto);
+  @Post('/login')
+  async login(@Res() response, @Body() loginDto: LoginDto): Promise<any> {
+    // return this.authService.login(loginDto);
+    try {
+      const user = await this.authService.login(loginDto);
+      return response.status(HttpStatus.CREATED).json({
+        statusCode: 200,
+        message: 'User Login successfully',
+        user,
+      });
+    } catch (err) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        statusCode: 400,
+        message: 'Error: User Not Found',
+        error: 'Bad Request',
+      });
+    }
   }
 
   //update

@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+import { Subjects } from 'src/subjects/schemas/subject.schema';
 export enum TeacherGender {
   MALE = 'male',
   FEMALE = 'female',
@@ -17,12 +18,18 @@ export class Teachers extends Document {
   email: string;
 
   @Prop()
-  age: number;
+  age: string;
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Subjects',
+    unique: [true, 'Id already Existed'],
+  })
+  subjectId: Subjects; // Reference to Class document
 
+  // @Prop()
+  // subject: string;
   @Prop()
-  subject: string;
-  @Prop()
-  phoneno: number;
+  phoneno: string;
   @Prop({
     enum: TeacherGender,
   })

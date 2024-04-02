@@ -9,63 +9,53 @@ import { User } from './schemas/user.schema';
 import { LoginDto } from './dto/login.dto';
 import { SignUpDto } from './dto/signup.dto';
 import * as bcrypt from 'bcryptjs';
+import { JwtService } from '@nestjs/jwt';
+import APIFeatures from 'src/utils/apiFeatures.utils';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(User.name)
     private userModel: Model<User>,
+    private jwtService: JwtService,
   ) {}
 
-  // // Register User
-  // async signUp(signUpDto: SignUpDto): Promise<User> {
-  //   const { name, email, username, password, role } = signUpDto;
-  //   console.log(signUpDto);
-  //   const hashedPassword = await bcrypt.hash(password, 10);
-  //   console.log(hashedPassword);
-  //   try {
-  //     const user = await this.userModel.create({
-  //       name,
-  //       email,
-  //       password,
-  //       username,
-  //       role,
-  //     });
-  //     console.log('data', user);
-  //     return user;
-  //   } catch (error) {
-  //     //handle duplicate email
-  //     if (error.code === 11000) {
-  //       throw new ConflictException('Duplicate email entered');
-  //     }
-  //   }
-  // }
+  async signUp(createSignupBody: SignUpDto): Promise<SignUpDto> {
+    const { password } = createSignupBody;
+    console.log(createSignupBody);
 
-  async signUp(createSignupBody: SignUpDto): Promise<any> {
-    const { name, email, username, password, role } = createSignupBody;
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log('password');
     try {
       const user = new this.userModel({
-        name,
-        email,
+        ...createSignupBody,
         password: hashedPassword,
-        username,
-        role,
       });
+      console.log('password');
       await user.save();
+
+      const accessToken = await APIFeatures.assignJwtToken(
+        user._id,
+        this.jwtService,
+      );
+      user.accessToken = accessToken;
+      await user.save();
+
       return user;
     } catch (error) {
       //handle duplicate email
       if (error.code === 11000) {
-        throw new ConflictException('Duplicate email entered');
+        throw new ConflictException('Duplicate email entered 111');
       }
     }
   }
 
   // login user
-  async login(loginDto: LoginDto): Promise<User> {
+  async login(loginDto: LoginDto): Promise<any> {
     const { email, password } = loginDto;
-    const user = await this.userModel.findOne({ email }).select('password');
+    const user = await this.userModel.findOne({ email });
+
+    // const user = await this.userModel.findOne({ email }).select('password');
     if (!user) {
       throw new UnauthorizedException('Invalid email address or password');
     }
@@ -74,7 +64,15 @@ export class AuthService {
     if (!isPasswordMatch) {
       throw new UnauthorizedException('Invalid email address or password');
     }
-    return user;
+    const accessToken = await APIFeatures.assignJwtToken(
+      user._id,
+      this.jwtService,
+    );
+    const res = {
+      user,
+      accessToken,
+    };
+    return res;
   }
 
   //Update restaurants by id  put
@@ -85,3 +83,26 @@ export class AuthService {
     });
   }
 }
+// // Register User
+// async signUp(signUpDto: SignUpDto): Promise<User> {
+//   const { name, email, username, password, role } = signUpDto;
+//   console.log(signUpDto);
+//   const hashedPassword = await bcrypt.hash(password, 10);
+//   console.log(hashedPassword);
+//   try {
+//     const user = await this.userModel.create({
+//       name,
+//       email,
+//       password,
+//       username,
+//       role,
+//     });
+//     console.log('data', user);
+//     return user;
+//   } catch (error) {
+//     //handle duplicate email
+//     if (error.code === 11000) {
+//       throw new ConflictException('Duplicate email entered');
+//     }
+//   }
+// }

@@ -13,27 +13,59 @@ export enum UserGender {
 }
 @Schema()
 export class User extends Document {
-  @Prop()
-  name: string;
+  // @Prop()
+  // name: string;
 
-  @Prop({ unique: [true, 'Duplicate email entered'] })
-  email: string;
+  // @Prop({ unique: [true, 'Duplicate email entered'] })
+  // email: string;
+
+  // @Prop()
+  // password: string;
+
+  // @Prop({
+  //   enum: UserRoles,
+  //   default: UserRoles.ADMIN,
+  // })
+  // role?: UserRoles;
+  // @Prop({
+  //   enum: UserGender,
+  // })
+  // gender?: UserGender;
 
   @Prop({ unique: [true, 'username already exist'] })
   username: string;
 
   @Prop()
+  accessToken: string;
+  @Prop()
+  displayName: string;
+  @Prop({ unique: [true, 'email already exist'] })
+  email: string;
+  @Prop()
   password: string;
-
+  @Prop()
+  photoURL: string;
+  @Prop()
+  phoneNumber: string;
+  @Prop()
+  country: string;
+  @Prop()
+  address: string;
+  @Prop()
+  state: string;
+  @Prop()
+  city: string;
+  @Prop()
+  zipCode: string;
+  @Prop()
+  about: string;
   @Prop({
     enum: UserRoles,
     default: UserRoles.ADMIN,
   })
   role?: UserRoles;
-  @Prop({
-    enum: UserGender,
-  })
-  gender?: UserGender;
+  @Prop()
+  isPublic: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

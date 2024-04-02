@@ -21,9 +21,10 @@ export class TeachersService {
     return newTeacher.save();
   }
 
-  //get All Students => GEt
+  //get All teacher => GEt
   async findAll(): Promise<Teachers[]> {
-    const Teachers = await this.TeachersModel.find();
+    const Teachers = await this.TeachersModel.find().populate('subjectId'); // Populate the 'classId' field with the corresponding Class document
+
     return Teachers;
   }
 

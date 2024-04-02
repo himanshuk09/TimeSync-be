@@ -21,19 +21,21 @@ export class CreateStudentDto {
   @IsNotEmpty()
   readonly email: string;
 
-  @IsString()
+  // @IsString()
+  // @IsNotEmpty()
+  // readonly classname: string;
+
+  readonly subjectId: string;
+
   @IsNotEmpty()
-  readonly classname: string;
-  @IsNumber()
-  @IsNotEmpty()
-  readonly age: number;
+  readonly age: string;
 
   @IsEnum(StudentGender, { message: 'Please enter correct gender' })
   @IsNotEmpty()
   readonly gender?: StudentGender;
-  @IsNumber()
+
   @IsNotEmpty()
-  readonly phoneno: number;
+  readonly phoneno: string;
 
   readonly address: {
     street: String;
