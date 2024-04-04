@@ -12,6 +12,7 @@ import { SubjectsModule } from './subjects/subjects.module';
 import { ClasssubjectmappingModule } from './classsubjectmapping/classsubjectmapping.module';
 import { EventsModule } from './events/events.module';
 import { MarkAttendenceModule } from './mark-attendence/mark-attendence.module';
+import { TimetableModule } from './timetable/timetable.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { MarkAttendenceModule } from './mark-attendence/mark-attendence.module';
     ClasssubjectmappingModule,
     EventsModule,
     MarkAttendenceModule,
+    TimetableModule,
   ],
   controllers: [AppController],
   providers: [AppService],
