@@ -80,7 +80,7 @@ export class ClasssubjectmappingController {
     if (deletedSubject) {
       return { deleted: true };
     } else {
-      throw new NotFoundException('Restaurant not found');
+      throw new NotFoundException('class subject not found');
     }
   }
 }

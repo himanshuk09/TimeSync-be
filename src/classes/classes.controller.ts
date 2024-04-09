@@ -65,4 +65,8 @@ export class ClassesController {
       throw new NotFoundException('Restaurant not found');
     }
   }
+  @Get(':id')
+  async getByClassId(@Param('id') id: string): Promise<Classes> {
+    return this.classesService.findById(id);
+  }
 }

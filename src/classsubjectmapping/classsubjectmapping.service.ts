@@ -47,6 +47,33 @@ export class ClasssubjectmappingService {
     return createdMappings;
   }
 
+  // getClassSubjectMap(classSubjectMappings) {
+  //   const classSubjectsMap = new Map();
+
+  //   // Iterate over each mapping
+  //   classSubjectMappings.forEach((mapping) => {
+  //     const classId = mapping.classId._id;
+  //     const parentId = mapping._id;
+  //     const className = mapping.classId.classname;
+  //     const subjectName = mapping.subjectId.subject;
+
+  //     // If classId is not in the map, initialize it with an empty array
+  //     if (!classSubjectsMap.has(classId)) {
+  //       classSubjectsMap.set(classId, {
+  //         classId,
+  //         parentId,
+  //         className,
+  //         subjects: [],
+  //       });
+  //     }
+
+  //     // Push the subject name to the subjects array for the corresponding classId
+  //     classSubjectsMap.get(classId).subjects.push(subjectName);
+  //   });
+
+  //   // Convert map values to array and return
+  //   return Array.from(classSubjectsMap.values());
+  // }
   getClassSubjectMap(classSubjectMappings) {
     const classSubjectsMap = new Map();
 
@@ -55,21 +82,26 @@ export class ClasssubjectmappingService {
       const classId = mapping.classId._id;
       const parentId = mapping._id;
       const className = mapping.classId.classname;
+      const subjectId = mapping.subjectId._id;
       const subjectName = mapping.subjectId.subject;
 
       // If classId is not in the map, initialize it with an empty array
       if (!classSubjectsMap.has(classId)) {
-        classSubjectsMap.set(classId, { parentId, className, subjects: [] });
+        classSubjectsMap.set(classId, {
+          classId,
+          parentId,
+          className,
+          subjects: [],
+        });
       }
 
-      // Push the subject name to the subjects array for the corresponding classId
-      classSubjectsMap.get(classId).subjects.push(subjectName);
+      // Push the subject object to the subjects array for the corresponding classId
+      classSubjectsMap.get(classId).subjects.push({ subjectId, subjectName });
     });
 
     // Convert map values to array and return
     return Array.from(classSubjectsMap.values());
   }
-
   async findAll(): Promise<ClassSubjectmapping[]> {
     const classSubject = await this.ClassSubjectsMappingModel.find()
       .populate('classId') // Populate the 'classId' field with the corresponding Class document
@@ -107,81 +139,3 @@ export class ClasssubjectmappingService {
     return await this.ClassSubjectsMappingModel.findByIdAndDelete(id);
   }
 }
-
-// {
-//   "classId": "65f990d84823670a61600d1e",
-//   "subjectIds": [
-//     { "id": "65fa79e36215e4c861056d53" },
-//     { "id": "65faa817712a5f11a8fe7e49" }
-//   ]
-// }
-
-// getClassSubjectMap(classSubjectMappings) {
-//   // Create an empty map to store classes and their subjects
-//   const classSubjectMap = new Map();
-//   // Iterate over each classSubjectMapping object
-//   classSubjectMappings.forEach((mapping) => {
-//     const classId = mapping.classId._id;
-//     const className = mapping.classId.classname;
-//     const subjectName = mapping.subjectId.subject;
-//     // If the classId is not already in the map, add it with an empty array
-//     if (!classSubjectMap.has(classId)) {
-//       classSubjectMap.set(classId, { className, subjects: [] });
-//     }
-//     // Add the subject to the subjects array of the class
-//     classSubjectMap.get(classId).subjects.push(subjectName);
-//   });
-//   // Convert the map to an array of objects
-//   const classSubjectArray = Array.from(classSubjectMap.values());
-//   return classSubjectArray;
-// }
-// getClassSubjectMap(classSubjectMappings) {
-//   const classSubjectsMap = new Map();
-
-//   // Iterate over each mapping
-//   classSubjectMappings.forEach((mapping) => {
-//     const classId = mapping.classId._id;
-//     const className = mapping.classId.classname;
-//     const subjectName = mapping.subjectId.subject;
-
-//     // If classId is not in the map, initialize it with an empty array
-//     if (!classSubjectsMap.has(classId)) {
-//       classSubjectsMap.set(classId, { classId, className, subjects: [] });
-//     }
-
-//     // Push the subject name to the subjects array for the corresponding classId
-//     classSubjectsMap.get(classId).subjects.push(subjectName);
-//   });
-
-//   // Convert map values to array and return
-//   return Array.from(classSubjectsMap.values());
-// }
-
-// getClassSubjectMap(classSubjectMappings) {
-//   const classSubjectsMap = new Map();
-
-//   // Iterate over each mapping
-//   classSubjectMappings.forEach((mapping) => {
-//     const classId = mapping.classId._id;
-//     const className = mapping.classId.classname;
-//     const subjectId = mapping.subjectId._id;
-//     const subjectName = mapping.subjectId.subject;
-
-//     // If classId is not in the map, initialize it with an empty array
-//     if (!classSubjectsMap.has(classId)) {
-//       classSubjectsMap.set(classId, {
-//         _id: classId,
-//         className,
-//         subjects: [],
-//       });
-//     }
-
-//     // Push the subject ID and name to the subjects array for the corresponding classId
-//     classSubjectsMap
-//       .get(classId)
-//       .subjects.push({ _id: subjectId, name: subjectName });
-//   });
-
-//   // Convert map values to array and return
-//   return Array.from(classSubjectsMap.values());
-// }

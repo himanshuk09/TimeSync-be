@@ -1,32 +1,63 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTimetableDto } from './dto/create-timetable.dto';
-import { UpdateTimetableDto } from './dto/update-timetable.dto';
-import { Timetable } from './entities/timetable.entity';
 import mongoose from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { NewTimetable } from './schemas/timetable.schema';
 
 @Injectable()
 export class TimetableService {
   constructor(
-    @InjectModel(Timetable.name)
-    private TimetableModel: mongoose.Model<Timetable>,
+    @InjectModel(NewTimetable.name)
+    private TimetableModel: mongoose.Model<NewTimetable>,
   ) {}
 
-  async create(createTimetableDto: CreateTimetableDto): Promise<Timetable[]> {
-    const { classId, subjectIds, teacherIds, day, period } = createTimetableDto;
-
-    const createdMappings: Timetable[] = [];
-
-    for (const subjectIdObj of subjectIds) {
-      const { id: subjectId } = subjectIdObj;
-      const newMapping = new this.TimetableModel({
-        classId,
-        subjectId,
+  async create(
+    createTimetableDto: CreateTimetableDto[],
+  ): Promise<NewTimetable[]> {
+    const timetableEntites = [];
+    for (const entity of createTimetableDto) {
+      const newEntity = await new this.TimetableModel({
+        subjectId: entity.subjectId,
+        classId: entity.classId,
+        teacherId: entity.teacherId,
+        day: entity.day,
+        period: entity.period,
       });
-      const savedMapping = await newMapping.save();
-      createdMappings.push(savedMapping);
+      const saveEntity = await newEntity.save();
+      timetableEntites.push(saveEntity);
     }
+    return timetableEntites;
+  }
 
-    return createdMappings;
+  async getByClassId(classId: string): Promise<NewTimetable[]> {
+    return this.TimetableModel.find({ classId })
+      .populate('subjectId')
+      .populate('teacherId')
+      .populate('classId')
+      .exec();
+  }
+  async findAll(): Promise<NewTimetable[]> {
+    const timetable = await this.TimetableModel.find()
+      .populate('subjectId')
+      .populate('teacherId')
+      .populate('classId');
+
+    return timetable;
+  }
+
+  async deleteClass(classId: string) {
+    try {
+      return await this.TimetableModel.deleteMany({ classId: classId }).exec();
+    } catch (error) {
+      throw new Error('Failed to delete documents');
+    }
+  }
+
+  getClassNames(documents: NewTimetable[]): any[] {
+    const classMap = new Map<string, NewTimetable>();
+    documents.forEach((doc) => {
+      classMap.set(doc.classId.classname, doc);
+    });
+    return Array.from(classMap.values());
   }
 }

@@ -3,9 +3,9 @@ import mongoose, { Document } from 'mongoose';
 import { Classes } from 'src/classes/schemas/classes.schema';
 import { Subjects } from 'src/subjects/schemas/subject.schema';
 import { Teachers } from 'src/teachers/schemas/teachers.schema';
-import { Timetable } from '../entities/timetable.entity';
+
 @Schema()
-export class TImetable extends Document {
+export class NewTimetable extends Document {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Classes',
@@ -34,4 +34,4 @@ export class TImetable extends Document {
   period: string;
 }
 
-export const TimetableSchema = SchemaFactory.createForClass(Timetable);
+export const TimetableSchema = SchemaFactory.createForClass(NewTimetable);

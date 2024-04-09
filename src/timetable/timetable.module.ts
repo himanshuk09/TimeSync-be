@@ -8,7 +8,7 @@ import { TimetableSchema } from './schemas/timetable.schema';
   imports: [
     MongooseModule.forFeature([
       {
-        name: 'Timetable',
+        name: 'NewTimetable',
         schema: TimetableSchema,
       },
     ]),
