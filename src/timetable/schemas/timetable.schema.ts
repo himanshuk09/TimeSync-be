@@ -16,14 +16,14 @@ export class NewTimetable extends Document {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Subjects',
-    unique: [true, 'Class already Existed'],
+    unique: [true, 'Subject already Existed'],
   })
   subjectId: Subjects; // Reference to Subject document
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Teachers',
-    unique: [true, 'Class already Existed'],
+    unique: [true, 'Teacher already Existed'],
   })
   teacherId: Teachers; // Reference to Teacher document
 

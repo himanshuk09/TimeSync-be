@@ -3,35 +3,32 @@ import { Type } from 'class-transformer';
 import {
   IsDefined,
   IsEnum,
+  IsISO8601,
   IsNotEmpty,
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { StudentAttendence } from '../schemas/markattendence.schema';
-
-export class IdsDto {
-  @ApiProperty()
-  @IsDefined()
-  @IsString()
-  id: string;
-}
 
 export class CreateMarkAttendenceDto {
+  @IsDefined()
+  @IsString()
+  readonly classId: string;
+  @IsDefined()
+  @IsString()
+  readonly studentId: string;
+  @IsDefined()
+  @IsString()
+  readonly subjectId: string;
+
   @ApiProperty()
   @IsDefined()
-  @IsString()
-  classId: string;
+  @IsISO8601()
+  readonly attendenceDate: Date;
 
-  @ApiProperty({ type: IdsDto, isArray: true })
-  @ValidateNested({ each: true })
   @IsDefined()
-  @Type(() => IdsDto)
-  studentIds: IdsDto[];
-
   @IsString()
-  attendencedate: string;
-
-  @IsEnum(StudentAttendence, { message: 'Please Choose correct attendence' })
-  @IsNotEmpty()
-  attendencetype: StudentAttendence;
+  readonly attendenceType: string;
+  @IsDefined()
+  @IsString()
+  readonly reason: string;
 }

@@ -8,7 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
   imports: [
     MongooseModule.forFeature([
       {
-        name: 'Attendence',
+        name: 'NoteAttendence',
         schema: AttendenceSchema,
       },
     ]),

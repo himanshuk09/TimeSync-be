@@ -74,18 +74,15 @@ export class ClasssubjectmappingService {
   //   // Convert map values to array and return
   //   return Array.from(classSubjectsMap.values());
   // }
+
   getClassSubjectMap(classSubjectMappings) {
     const classSubjectsMap = new Map();
-
-    // Iterate over each mapping
     classSubjectMappings.forEach((mapping) => {
       const classId = mapping.classId._id;
       const parentId = mapping._id;
       const className = mapping.classId.classname;
       const subjectId = mapping.subjectId._id;
       const subjectName = mapping.subjectId.subject;
-
-      // If classId is not in the map, initialize it with an empty array
       if (!classSubjectsMap.has(classId)) {
         classSubjectsMap.set(classId, {
           classId,
@@ -94,8 +91,6 @@ export class ClasssubjectmappingService {
           subjects: [],
         });
       }
-
-      // Push the subject object to the subjects array for the corresponding classId
       classSubjectsMap.get(classId).subjects.push({ subjectId, subjectName });
     });
 
