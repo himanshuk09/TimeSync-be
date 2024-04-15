@@ -11,13 +11,12 @@ import {
 
 export class CreateMarkAttendenceDto {
   @IsDefined()
-  @IsString()
   readonly classId: string;
+
   @IsDefined()
-  @IsString()
   readonly studentId: string;
+
   @IsDefined()
-  @IsString()
   readonly subjectId: string;
 
   @ApiProperty()
