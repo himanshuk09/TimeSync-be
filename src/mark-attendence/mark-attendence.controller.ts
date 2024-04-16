@@ -18,6 +18,7 @@ import { UpdateMarkAttendenceDto } from './dto/update-mark-attendence.dto';
 import { ApiBody } from '@nestjs/swagger';
 import { NoteAttendence } from './schemas/markattendence.schema';
 import mongoose from 'mongoose';
+import { DateRangeDto } from './dto/date-range-dto';
 
 @Controller('mark-attendence')
 export class MarkAttendenceController {
@@ -31,7 +32,6 @@ export class MarkAttendenceController {
   ): Promise<NoteAttendence> {
     try {
       const firstEntityVerify = createTimetable[0];
-      console.log(firstEntityVerify);
 
       const existingAttendance =
         await this.markAttendenceService.getByClassIdSubjectIdByStudentIdAndDate(
@@ -117,29 +117,15 @@ export class MarkAttendenceController {
     await this.markAttendenceService.findById(id);
     return this.markAttendenceService.updateById(id, classes);
   }
-  // @Get('/find-by-date-range/:classId/:startDate/:endDate')
-  // async findAttendanceByDateRange(
-  //   @Param('classId') classId: string,
-  //   @Param('startDate') startDate: Date,
-  //   @Param('endDate') endDate: Date,
-  // ): Promise<NoteAttendence[]> {
-  //   return this.findAttendanceByDateRange(
-  //     classId,
-  //     new Date(startDate),
-  //     new Date(endDate),
-  //   );
-  // }
 
-  //   @Get('/find-by-date-range/:startDate/:endDate')
-  //   async findAttendanceByDateRange(
-  //     @Param('startDate') startDate: string,
-  //     @Param('endDate') endDate: string,
-  //   ) {
-  //     return this.attendanceService.findAttendanceByDateRange(startDate, endDate);
-  //   }
+  @Get('/between-date-range/:startDate/:endDate')
+  async findBetweenDateRange(
+    @Param('startDate') startDate: Date,
+    @Param('endDate') endDate: Date,
+  ) {
+    const dateRange: DateRangeDto = { startDate, endDate };
+    console.log(dateRange);
 
-  // @Get('/findDate')
-  // async findAttendanceByDateRange(): Promise<NoteAttendence[]> {
-  //   return this.markAttendenceService.findAttendanceByDateRange();
-  // }
+    // return this.markAttendenceService.findBetweenDateRange(dateRange);
+  }
 }
