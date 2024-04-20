@@ -75,7 +75,7 @@ export class AuthService {
     return res;
   }
 
-  //Update restaurants by id  put
+  //Update user by id  put
   async updateById(id: string, userDetails): Promise<User> {
     return await this.userModel.findByIdAndUpdate(id, userDetails, {
       new: true,

@@ -116,7 +116,12 @@ export class MarkAttendenceService {
   }
 
   async findAll(): Promise<NoteAttendence[]> {
-    const attendence = await this.AttendenceModel.find();
+    const attendence = await this.AttendenceModel.find()
+      .populate('subjectId')
+      .populate('studentId')
+      .populate('studentId')
+      .populate('classId')
+      .exec();
     return attendence;
   }
 
