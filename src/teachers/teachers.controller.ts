@@ -71,4 +71,10 @@ export class TeachersController {
       throw new NotFoundException('Teacher not found');
     }
   }
+  @Get('/subjectId/:subjectId')
+  async getByClassId(
+    @Param('subjectId') subjectId: string,
+  ): Promise<Teachers[]> {
+    return this.teachersService.getByClassId(subjectId);
+  }
 }

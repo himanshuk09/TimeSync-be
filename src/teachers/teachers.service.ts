@@ -54,4 +54,10 @@ export class TeachersService {
   async deleteById(id: string): Promise<Teachers> {
     return await this.TeachersModel.findByIdAndDelete(id);
   }
+  async getByClassId(subjectId: string): Promise<Teachers[]> {
+    return this.TeachersModel.find({ subjectId }).populate('subjectId');
+    // .populate('teacherId')
+    // .populate('classId')
+    // .exec();
+  }
 }
