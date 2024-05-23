@@ -23,7 +23,7 @@ export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}
 
   @Get()
-  @UseGuards(AuthGuard())
+  // @UseGuards(AuthGuard())
   async getAllStudents(): Promise<Students[]> {
     return this.studentsService.findAll();
   }

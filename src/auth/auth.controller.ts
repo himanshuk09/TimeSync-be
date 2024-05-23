@@ -6,16 +6,18 @@ import {
   Patch,
   Param,
   Delete,
+  Request,
   Put,
   Res,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { SignUpDto } from './dto/signup.dto';
 import { User } from './schemas/user.schema';
 import { updateDto } from './dto/updatedto';
-
+import { JwtAuthGuard } from './jwt-auth.guard';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -53,5 +55,19 @@ export class AuthController {
     @Body() restaurant: updateDto,
   ): Promise<User> {
     return this.authService.updateById(id, restaurant);
+  }
+
+  // @UseGuards(JwtAuthGuard)
+  // @Get('check-token')
+  // async checkToken(@Request() req) {
+  //   // If the token is valid, this route will be accessible
+  //   return { valid: true };
+  // }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('check-token')
+  async checkToken(@Request() req) {
+    // The token is valid if it reaches here, return the user info
+    return { message: 'Token is valid', user: req.user };
   }
 }
