@@ -11,6 +11,9 @@ import {
   Res,
   HttpStatus,
   UseGuards,
+  Req,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -18,6 +21,10 @@ import { SignUpDto } from './dto/signup.dto';
 import { User } from './schemas/user.schema';
 import { updateDto } from './dto/updatedto';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiOperation, ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { diskStorage } from 'multer';
+import { FileUploadDto } from './dto/UploadImage.dto';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -69,5 +76,44 @@ export class AuthController {
   async checkToken(@Request() req) {
     // The token is valid if it reaches here, return the user info
     return { message: 'Token is valid', user: req.user };
+  }
+
+  @ApiOperation({ summary: 'Upload file with image' })
+  @ApiConsumes('multipart/form-data')
+  @Post('upload-file')
+  @ApiBody({
+    type: FileUploadDto,
+    required: true,
+  })
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './public',
+        filename: (req, file, callback) => {
+          const originalName = file.originalname;
+          callback(null, originalName);
+        },
+      }),
+    }),
+  )
+  async uploadFiles(
+    @UploadedFile() file: Express.Multer.File,
+    @Req() req: any,
+  ) {
+    const fileUrl = await this.authService.uploadFile(file, req);
+    if (fileUrl) {
+      return {
+        status: true,
+        statusText: 'file uploaded',
+        message: 'file uploaded',
+        fileUrl,
+      };
+    } else {
+      return {
+        status: false,
+        statusText: 'failed to upload file',
+        message: 'failed to upload file',
+      };
+    }
   }
 }

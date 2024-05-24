@@ -82,27 +82,18 @@ export class AuthService {
       runValidators: true,
     });
   }
+
+  async uploadFile(
+    file: Express.Multer.File,
+    req: any,
+  ): Promise<string | boolean> {
+    if (file) {
+      const fileUrl =
+        req.protocol + '://' + req.headers.host + '/' + file.filename;
+      console.log('fileUrl', fileUrl);
+      return fileUrl;
+    } else {
+      return false;
+    }
+  }
 }
-// // Register User
-// async signUp(signUpDto: SignUpDto): Promise<User> {
-//   const { name, email, username, password, role } = signUpDto;
-//   console.log(signUpDto);
-//   const hashedPassword = await bcrypt.hash(password, 10);
-//   console.log(hashedPassword);
-//   try {
-//     const user = await this.userModel.create({
-//       name,
-//       email,
-//       password,
-//       username,
-//       role,
-//     });
-//     console.log('data', user);
-//     return user;
-//   } catch (error) {
-//     //handle duplicate email
-//     if (error.code === 11000) {
-//       throw new ConflictException('Duplicate email entered');
-//     }
-//   }
-// }
