@@ -11,22 +11,56 @@ export class TimetableService {
     private TimetableModel: mongoose.Model<NewTimetable>,
   ) {}
 
+  // async create(
+  //   createTimetableDto: CreateTimetableDto[],
+  // ): Promise<NewTimetable[]> {
+  //   console.log('createTimetableDto', createTimetableDto);
+  //   const timetableEntites = [];
+  //   for (const entity of createTimetableDto) {
+  //     const newEntity = await new this.TimetableModel({
+  //       subjectId: entity.subjectId,
+  //       classId: entity.classId,
+  //       teacherId: entity.teacherId,
+  //       day: entity.day,
+  //       period: entity.period,
+  //     });
+  //     console.log('newEntity', newEntity);
+
+  //     const saveEntity = await newEntity.save();
+  //     console.log('saveEntity', saveEntity);
+
+  //     timetableEntites.push(saveEntity);
+  //   }
+  //   console.log('timetableEntites', timetableEntites);
+  //   return timetableEntites;
+  // }
+
   async create(
     createTimetableDto: CreateTimetableDto[],
   ): Promise<NewTimetable[]> {
-    const timetableEntites = [];
-    for (const entity of createTimetableDto) {
-      const newEntity = await new this.TimetableModel({
-        subjectId: entity.subjectId,
-        classId: entity.classId,
-        teacherId: entity.teacherId,
-        day: entity.day,
-        period: entity.period,
-      });
-      const saveEntity = await newEntity.save();
-      timetableEntites.push(saveEntity);
+    try {
+      console.log('createTimetableDto', createTimetableDto);
+      const timetableEntites = [];
+      for (const entity of createTimetableDto) {
+        const newEntity = await new this.TimetableModel({
+          subjectId: entity.subjectId,
+          classId: entity.classId,
+          teacherId: entity.teacherId,
+          day: entity.day,
+          period: entity.period,
+        });
+        console.log('newEntity', newEntity);
+
+        const saveEntity = await newEntity.save();
+        console.log('saveEntity', saveEntity);
+
+        timetableEntites.push(saveEntity);
+      }
+      console.log('timetableEntites', timetableEntites);
+      return timetableEntites;
+    } catch (error) {
+      console.log(error);
     }
-    return timetableEntites;
   }
 
   async getByClassId(classId: string): Promise<NewTimetable[]> {

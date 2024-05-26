@@ -8,12 +8,15 @@ import { UpdateTeacherDto } from './dto/update-teacher.dto';
 import { Teachers } from './schemas/teachers.schema';
 import mongoose from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { NewTimetable } from 'src/timetable/schemas/timetable.schema';
 
 @Injectable()
 export class TeachersService {
   constructor(
     @InjectModel(Teachers.name)
     private TeachersModel: mongoose.Model<Teachers>,
+    @InjectModel(NewTimetable.name)
+    private TimetableModel: mongoose.Model<NewTimetable>,
   ) {}
 
   async create(createTeacherDto: CreateTeacherDto): Promise<Teachers> {
@@ -51,9 +54,19 @@ export class TeachersService {
   }
 
   //DElete teacher by id
-  async deleteById(id: string): Promise<Teachers> {
-    return await this.TeachersModel.findByIdAndDelete(id);
+  // async deleteById(id: string): Promise<Teachers> {
+  //   return await this.TeachersModel.findByIdAndDelete(id);
+  // }
+  async deleteById(id: string): Promise<Boolean> {
+    try {
+      await this.TeachersModel.deleteMany({ subjectId: id });
+      await this.TimetableModel.deleteMany({ subjectId: id });
+      return true;
+    } catch (error) {
+      console.log(error);
+    }
   }
+
   async getByClassId(subjectId: string): Promise<Teachers[]> {
     return this.TeachersModel.find({ subjectId }).populate('subjectId');
     // .populate('teacherId')
