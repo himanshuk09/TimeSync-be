@@ -5,7 +5,6 @@ export enum UserRoles {
   USER = 'user',
   TEACHER = 'teacher',
 }
-
 export enum UserGender {
   MALE = 'male',
   FEMALE = 'female',
@@ -13,28 +12,8 @@ export enum UserGender {
 }
 @Schema()
 export class User extends Document {
-  // @Prop()
-  // name: string;
-
-  // @Prop({ unique: [true, 'Duplicate email entered'] })
-  // email: string;
-
-  // @Prop()
-  // password: string;
-
-  // @Prop({
-  //   enum: UserRoles,
-  //   default: UserRoles.ADMIN,
-  // })
-  // role?: UserRoles;
-  // @Prop({
-  //   enum: UserGender,
-  // })
-  // gender?: UserGender;
-
   @Prop({ unique: [true, 'username already exist'] })
   username: string;
-
   @Prop()
   accessToken: string;
   @Prop()

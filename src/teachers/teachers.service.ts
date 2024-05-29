@@ -59,7 +59,7 @@ export class TeachersService {
   // }
   async deleteById(id: string): Promise<Boolean> {
     try {
-      await this.TeachersModel.deleteMany({ subjectId: id });
+      await this.TeachersModel.findByIdAndDelete(id);
       await this.TimetableModel.deleteMany({ subjectId: id });
       return true;
     } catch (error) {
