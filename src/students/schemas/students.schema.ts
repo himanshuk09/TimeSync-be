@@ -23,7 +23,7 @@ export class Students extends Document {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Classes',
-    unique: [true, 'Id already Existed'],
+    // unique: [true, 'Id already Existed'],
   })
   classId: Classes; // Reference to Class document
 

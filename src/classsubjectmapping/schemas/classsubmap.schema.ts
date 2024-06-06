@@ -15,14 +15,14 @@ export class ClassSubjectmapping extends Document {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Classes',
-    unique: [true, 'Id already Existed'],
+    // unique: [true, 'Id already Existed'],
   })
   classId: Classes; // Reference to Class document
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Subjects',
-    unique: [true, 'Class already Existed'],
+    // unique: [true, 'Class already Existed'],
   })
   subjectId: Subjects; // Reference to Subject document
 }
