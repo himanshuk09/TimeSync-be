@@ -1,5 +1,7 @@
 # Timesync Backend
 
+![Timesync](https://i.ibb.co/qswXNMb/timesync.png)
+
 ## Table of Contents
 
 - [Introduction](#introduction)
@@ -68,8 +70,13 @@ The backend of the Timesync project is built using NestJS and MongoDB. It provid
 
 ## Configuration
 
-- **src/config:** Configuration files for different environments (development, production).
-- **src/app.module.ts:** Root module of the application.
+- Create a .env file in the root directory and add your necessary environment variables.
+  ```bash
+   MONGODB_URL=mongodb://127.0.0.1:27017/TimeSync
+   JWT_SECRET=ABCDEFGHIJKLMNOPQRSTUVWXYZ
+   JWT_EXPIRES=1d
+   PORT=3000
+  ```
 
 ## Running the Application
 
@@ -79,6 +86,7 @@ The backend of the Timesync project is built using NestJS and MongoDB. It provid
 2. **Start the Application:**
    ```bash
    npm run start
+
    ```
 
 ## API Documentation
