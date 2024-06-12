@@ -19,6 +19,8 @@
 
 ## Introduction
 
+Timesync is an innovative school scheduling application designed to streamline the management of classes, subjects, students, teachers, timetables, attendance, and event scheduling. Built with React, and TypeScript , MUI , NestJS, MongoDB, it provides a seamless experience for administrators, teachers, and students alike.
+
 The backend of the Timesync project is built using NestJS and MongoDB. It provides RESTful API endpoints for managing classes, subjects, students, teachers, timetables, attendance, attendance reports, and event schedules.
 
 ## Features
