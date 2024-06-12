@@ -1,73 +1,110 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Timesync Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Table of Contents
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- [Introduction](#introduction)
+- [Features](#features)
+- [Architecture](#architecture)
+- [Technologies Used](#technologies-used)
+- [System Requirements](#system-requirements)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Running the Application](#running-the-application)
+- [API Documentation](#api-documentation)
+- [Limitations](#limitations)
+- [Future Scope](#future-scope)
+- [Author](#author)
 
-## Description
+## Introduction {#link-sf .btn-read-more}
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+The backend of the Timesync project is built using NestJS and MongoDB. It provides RESTful API endpoints for managing classes, subjects, students, teachers, timetables, attendance, attendance reports, and event schedules.
+
+## Features
+
+- **User Management:** Register and authenticate users (students, teachers, administrators).
+- **Class Management:** CRUD operations for classes.
+- **Subject Management:** CRUD operations for subjects.
+- **Student Management:** CRUD operations for students.
+- **Teacher Management:** CRUD operations for teachers.
+- **Timetable Management:** Generate and manage timetables.
+- **Attendance Management:** Record and manage attendance.
+- **Attendance Reports:** Generate and fetch attendance reports.
+- **Event Scheduling:** Manage event schedules and calendars.
+
+## Architecture
+
+- **Controllers:** Handle incoming HTTP requests and return responses.
+- **Services:** Contain business logic and interact with the database.
+- **Repositories:** Manage data persistence and retrieval using MongoDB.
+- **DTOs (Data Transfer Objects):** Define the shape of data sent and received.
+- **Guards & Middleware:** Implement authentication and authorization.
+
+## Technologies Used
+
+- **NestJS:** A progressive Node.js framework for building efficient, reliable, and scalable server-side applications.
+- **MongoDB:** A NoSQL database for storing application data.
+- **Mongoose:** An ODM (Object Data Modeling) library for MongoDB and Node.js.
+
+## System Requirements
+
+- **Node.js:** v14.x or later
+- **MongoDB:** v4.x or later
+- **npm:** v6.x or later
 
 ## Installation
 
-```bash
-$ npm install
-```
+1. **Clone the Repository:**
 
-## Running the app
+   ```bash
+   git clone https://github.com/yourusername/timesync-backend.git
+   cd timesync-backend
 
-```bash
-# development
-$ npm run start
+   ```
 
-# watch mode
-$ npm run start:dev
+2. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
 
-# production mode
-$ npm run start:prod
-```
+## Configuration
 
-## Test
+- **src/config:** Configuration files for different environments (development, production).
+- **src/app.module.ts:** Root module of the application.
 
-```bash
-# unit tests
-$ npm run test
+## Running the Application
 
-# e2e tests
-$ npm run test:e2e
+1. **Start MongoDB:**
+   Ensure MongoDB is running on your local machine or a remote server.
 
-# test coverage
-$ npm run test:cov
-```
+2. **Start the Application:**
+   ```bash
+   npm run start
+   ```
 
-## Support
+## API Documentation
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+API documentation is generated using Swagger and can be accessed at http://localhost:3000/api.
 
-## Stay in touch
+## Limitations
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Limited offline capabilities.
+- Basic user interface in initial implementation.
+- Scalability issues with very large datasets.
+- Real-time data updates not fully supported.
+- Security measures need enhancement for sensitive data protection.
 
-## License
+## Future Scope
 
-Nest is [MIT licensed](LICENSE).
+- Enhance scalability and performance.
+- Implement real-time data synchronization and notifications.
+- Develop offline capabilities and native mobile apps.
+- Improve UI/UX design for a better user experience.
+- Offer extensive customization options for different schools.
+- Integrate with third-party educational tools and platforms.
+
+## Author
+
+- Name: Himanshu Khade
+- Email: 20013himanshu@gmail.com
+- Portfolio : https://himanshu-khade-portfolio.vercel.app/
+- LinkedIn: https://www.linkedin.com/in/himanshu-khade-3a64a2197/
