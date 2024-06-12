@@ -17,7 +17,7 @@
 - [Future Scope](#future-scope)
 - [Author](#author)
 
-## Introduction {#link-sf .btn-read-more}
+## Introduction
 
 The backend of the Timesync project is built using NestJS and MongoDB. It provides RESTful API endpoints for managing classes, subjects, students, teachers, timetables, attendance, attendance reports, and event schedules.
 
@@ -84,6 +84,7 @@ The backend of the Timesync project is built using NestJS and MongoDB. It provid
    Ensure MongoDB is running on your local machine or a remote server.
 
 2. **Start the Application:**
+
    ```bash
    npm run start
 
