@@ -56,7 +56,7 @@ The backend of the Timesync project is built using NestJS and MongoDB. It provid
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/yourusername/timesync-backend.git
+   git clone https://github.com/himanshuk09/TimeSync-be
    cd timesync-backend
 
    ```
