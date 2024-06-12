@@ -86,8 +86,7 @@ The backend of the Timesync project is built using NestJS and MongoDB. It provid
 2. **Start the Application:**
 
    ```bash
-   npm run start
-
+   npm run start:dev
    ```
 
 ## API Documentation
