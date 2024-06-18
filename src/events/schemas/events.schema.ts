@@ -5,7 +5,7 @@ export class Events extends Document {
   @Prop()
   allDay: boolean;
 
-  @Prop({ unique: [true, 'Event already pressent'] })
+  @Prop({ unique: [true, 'Event already present'] })
   title: string;
 
   @Prop()

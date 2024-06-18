@@ -39,7 +39,7 @@ export class TimetableService {
     createTimetableDto: CreateTimetableDto[],
   ): Promise<NewTimetable[]> {
     try {
-      console.log('createTimetableDto', createTimetableDto);
+      // console.log('createTimetableDto', createTimetableDto);
       const timetableEntites = [];
       for (const entity of createTimetableDto) {
         const newEntity = await new this.TimetableModel({
@@ -49,14 +49,14 @@ export class TimetableService {
           day: entity.day,
           period: entity.period,
         });
-        console.log('newEntity', newEntity);
+        // console.log('newEntity', newEntity);
 
         const saveEntity = await newEntity.save();
-        console.log('saveEntity', saveEntity);
+        // console.log('saveEntity', saveEntity);
 
         timetableEntites.push(saveEntity);
       }
-      console.log('timetableEntites', timetableEntites);
+      // console.log('timetableEntites', timetableEntites);
       return timetableEntites;
     } catch (error) {
       console.log(error);
